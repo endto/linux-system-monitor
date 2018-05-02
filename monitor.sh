@@ -1,8 +1,8 @@
 #! /bin/bash
-printf "Date\t\tMemory\t\tDisk\t\tCPU\t\tGPU\t\tGPU Memory\n"
+printf "Date\t\t\tMemory\t\tDisk\t\tCPU\t\tGPU\t\tGPU Memory\n"
 end=$((SECONDS+3600))
 while [ $SECONDS -lt $end ]; do
-Date=$(date -d today +"%Y-%m-%d %T" | awk '{printf "%s%s\t\t", $1, $2}')
+Date=$(date -d today +"%Y-%m-%d %T" | awk '{printf "%s %s\t\t\t", $1, $2}')
 MEMORY=$(free -m | awk 'NR==2{printf "%.2f\t\t", $3/1024 }')
 DISK=$(df -h | awk '$NF=="/"{printf "%s\t\t", $5}')
 CPU=$(top -bn1 | grep load | awk '{printf "%.2f%%\t\t", $(NF-2)}')
