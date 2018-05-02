@@ -5,4 +5,4 @@
     ps -aux | grep ‘monitor.sh’
     kill -p PID
 ## 后台运行
-    nohup bash monitor.sh &
+    nohup bash monitor.sh > monitor_result.csv &
