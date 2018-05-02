@@ -7,6 +7,6 @@
         root     21080  0.0  0.0  12528  2928 pts/1    S    18:01   0:00 bash monitor.sh
         root     21208  0.0  0.0  14220   968 pts/1    S+   18:01   0:00 grep --color=auto monitor.sh
 ## 关闭已经运行的进程
-    kill -9 21080
+    kill -9 21080
 ## 后台运行
     nohup bash monitor.sh > monitor_result.csv &
