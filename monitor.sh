@@ -1,5 +1,5 @@
 #! /bin/bash
-printf "Memory\t\tDisk\t\tCPU\t\tGPU\t\tGPU Memory\t\tDate\n"
+printf "Memory\t\tDisk\t\tCPU\t\tGPU\t\tGPU Memory\n"
 end=$((SECONDS+3600))
 while [ $SECONDS -lt $end ]; do
 Date=$(date -d today +"%Y-%m-%d %T" | awk '{printf "%s %s\t\t\t", $1, $2}')
