@@ -1,7 +1,7 @@
 # linux-system-monitor
 ## 准备
     wget https://raw.githubusercontent.com/endto/linux-system-monitor/master/run_monitor.py
-    pip3 install -r xlsxwriter
+    pip3 install xlsxwriter
 ## 后台运行
     nohup python3 run_monitor.py &
 ## 终止运行
