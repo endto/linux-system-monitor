@@ -8,21 +8,29 @@ from pathlib import Path
 
 
 def percent_to_float(per):
-    aa = float(per.strip().strip('%'))
-    bb = aa / 100.0
-    return bb
+    try:
+        aa = float(per.strip().strip('%'))
+        bb = aa / 100.0
+        return bb
+    except:
+        return -1
 
 
 def get_system_memory():
-    return float(os.popen('''
-    free -m | awk 'NR==2{printf "%.2f\t\t", $3/1024 }'
-    ''').read())
-
+    try:
+        return float(os.popen('''
+        free -m | awk 'NR==2{printf "%.2f\t\t", $3/1024 }'
+        ''').read())
+    except:
+        return -1
 
 def get_system_disk():
-    return float(os.popen('''
-    df -h | awk '$NF=="/"{printf "%.2f\t\t", $3}'
-    ''').read())
+    try:
+        return float(os.popen('''
+        df -h | awk '$NF=="/"{printf "%.2f\t\t", $3}'
+        ''').read())
+    except:
+        return -1
 
 
 def get_cpu_usage():
@@ -38,9 +46,12 @@ def get_gpu_usage():
 
 
 def get_gpu_memory():
-    return float(os.popen('''
-    nvidia-smi --query-gpu=memory.used --format=csv | awk 'NR==2{printf "%.2f\t\t", $1/1024}'
-    ''').read())
+    try:
+        return float(os.popen('''
+        nvidia-smi --query-gpu=memory.used --format=csv | awk 'NR==2{printf "%.2f\t\t", $1/1024}'
+        ''').read())
+    except:
+        return -1
 
 
 def get_date():
