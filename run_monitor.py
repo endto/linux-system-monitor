@@ -24,6 +24,7 @@ def get_system_memory():
     except:
         return -1
 
+
 def get_system_disk():
     try:
         return float(os.popen('''
@@ -35,7 +36,19 @@ def get_system_disk():
 
 def get_cpu_usage():
     return percent_to_float(os.popen('''
-    mpstat -P ALL 1 1 | awk 'NR==4' |awk '{printf "%.2f%%\t\t", $4}'
+    mpstat -P ALL 1 1 | awk 'NR==4' |awk '{printf "%.2f%%\t\t", 100-$12}'
+    ''').read())
+
+
+def get_rx():
+    return percent_to_float(os.popen('''
+    sar -n DEV 1 1 | grep enp0s31f6 | awk 'NR==2{printf "%.2f", $5}'
+    ''').read())
+
+
+def get_tx():
+    return percent_to_float(os.popen('''
+    sar -n DEV 1 1 | grep enp0s31f6 | awk 'NR==2{printf "%.2f", $6}'
     ''').read())
 
 
@@ -99,12 +112,12 @@ def main():
     while not is_end():
         print(data[0]())
         row += 1
-        worksheet.write('A'+str(row), data[0]())
-        worksheet.write('B'+str(row), data[1](), per_format)
-        worksheet.write('C'+str(row), data[2]())
-        worksheet.write('D'+str(row), data[3]())
-        worksheet.write('E'+str(row), data[4](), per_format)
-        worksheet.write('F'+str(row), data[5]())
+        worksheet.write('A' + str(row), data[0]())
+        worksheet.write('B' + str(row), data[1](), per_format)
+        worksheet.write('C' + str(row), data[2]())
+        worksheet.write('D' + str(row), data[3]())
+        worksheet.write('E' + str(row), data[4](), per_format)
+        worksheet.write('F' + str(row), data[5]())
         time.sleep(5)
 
     # --------2、生成图表并插入到excel---------------
@@ -121,13 +134,13 @@ def main():
         # 如果我们新建sheet时设置了sheet名，这里就要设置成相应的值
         'name': '=Sheet2!$B$1',
         # 'categories': '=Sheet1!$A$2:$A$7',
-        'values': '=Sheet2!$B$2:$B$'+str(row),
+        'values': '=Sheet2!$B$2:$B$' + str(row),
         # 'line': {'color': 'red'},
     })
-    system_memory_col.add_series({'name': '=Sheet2!$C$1', 'values': '=Sheet2!$C$2:$C$'+str(row)})
-    system_disk_col.add_series({'name': '=Sheet2!$D$1', 'values': '=Sheet2!$D$2:$D$'+str(row)})
-    gpu_usage_col.add_series({'name': '=Sheet2!$E$1', 'values': '=Sheet2!$E$2:$E$'+str(row)})
-    gpu_memory_col.add_series({'name': '=Sheet2!$F$1', 'values': '=Sheet2!$F$2:$F$'+str(row)})
+    system_memory_col.add_series({'name': '=Sheet2!$C$1', 'values': '=Sheet2!$C$2:$C$' + str(row)})
+    system_disk_col.add_series({'name': '=Sheet2!$D$1', 'values': '=Sheet2!$D$2:$D$' + str(row)})
+    gpu_usage_col.add_series({'name': '=Sheet2!$E$1', 'values': '=Sheet2!$E$2:$E$' + str(row)})
+    gpu_memory_col.add_series({'name': '=Sheet2!$F$1', 'values': '=Sheet2!$F$2:$F$' + str(row)})
 
     # 设置图表的风格
     # chart_col.set_style(1)
